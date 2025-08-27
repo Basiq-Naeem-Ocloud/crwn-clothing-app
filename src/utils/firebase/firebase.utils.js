@@ -5,7 +5,8 @@ import {
     getAuth,
      signInWithRedirect, 
      signInWithPopup, 
-     GoogleAuthProvider
+     GoogleAuthProvider,
+     createUserWithEmailAndPassword
     } from 'firebase/auth';
 
 
@@ -25,21 +26,21 @@ import {
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyC6taYW1N2sVnNkvq1ys43u_Ueb40qqI_I",
-  authDomain: "crwn-clothing-db-1ec04.firebaseapp.com",
-  projectId: "crwn-clothing-db-1ec04",
-  storageBucket: "crwn-clothing-db-1ec04.firebasestorage.app",
-  messagingSenderId: "827662834183",
-  appId: "1:827662834183:web:b289892a97f78655f628a2"
+  apiKey: "AIzaSyDmuKixzWQDG0cjnVt8e1h_v9vwBOfOGQA",
+  authDomain: "crwn-clothing-db-55d2f.firebaseapp.com",
+  projectId: "crwn-clothing-db-55d2f",
+  storageBucket: "crwn-clothing-db-55d2f.firebasestorage.app",
+  messagingSenderId: "1018060840647",
+  appId: "1:1018060840647:web:df6b0d3528859c81e8e8e2"
 };
 
 // Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
 
 
-const provider = new GoogleAuthProvider();  // here we are using provider for google signin
+const googleProvider = new GoogleAuthProvider();  // here we are using provider for google signin
 
-provider.setCustomParameters({
+googleProvider.setCustomParameters({
     prompt: "select_account"
 });
 
@@ -49,7 +50,12 @@ export const auth = getAuth();
 
 
 // you can have multiple different providers
-export const signInWithGooglePopup = () => signInWithPopup( auth, provider ) // vimp thing to notice we ahve passed the auth and provider here 
+export const signInWithGooglePopup = () => signInWithPopup( auth, googleProvider ) // vimp thing to notice we ahve passed the auth and provider here 
+
+
+// todo not in use
+export const signInWithGoogleRedirect = () => signInWithRedirect( auth, googleProvider ) // vimp thing to notice we ahve passed the auth and provider here 
+
 
 
 // create db instance to access db throughout the app and export it
@@ -59,7 +65,12 @@ export const db = getFirestore();
 // making a function here to store the auth user into our firestore
 
 
-export const createUserDocumentFromAuth = async (userAuth) => { // we will pass the auth user from signin component here 
+export const createUserDocumentFromAuth = async (
+    userAuth, 
+    addtionalInformation={} // by default its value is empty object
+    ) => { // we will pass the auth user from signin component here 
+
+    if(!userAuth) return; 
 
     // doc takes three parameters 
     // 1- db connection or db reference
@@ -93,7 +104,8 @@ export const createUserDocumentFromAuth = async (userAuth) => { // we will pass 
             displayName,
             email,
             photoURL,
-            createdAt
+            createdAt,
+            ...addtionalInformation
 
         })
 
@@ -106,9 +118,17 @@ export const createUserDocumentFromAuth = async (userAuth) => { // we will pass 
 
        
     }
-    
+
     return userDocRef; 
 
 
+
+}
+
+export const createAuthUserWithEmailAndPassword = async (email, password) => {
+
+    if(!email || !password) return
+    
+    return await createUserWithEmailAndPassword(auth, email, password);
 
 }
