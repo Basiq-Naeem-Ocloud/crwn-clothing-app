@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 
-
+import { UserContext } from "../../contexts/user.context";
 
 import {createAuthUserWithEmailAndPassword, createUserDocumentFromAuth} from '../../utils/firebase/firebase.utils'
 
@@ -27,6 +27,8 @@ const SignUpForm = () =>{
 
     const { displayName, email, password, confirmPassword } = formFields;  // destructring the fields as initilaiiy the formFields is equal to defaulFormFields
 
+    // const {setCurrentUser} = useContext(UserContext);  // very important we ahve initialize it inside the compoent 
+
     console.log('formFields = ', formFields );
 
 
@@ -50,6 +52,10 @@ const SignUpForm = () =>{
 
             const response = await createAuthUserWithEmailAndPassword(email, password);
             console.log('response from email passwrod user = ', response);
+
+
+
+            // setCurrentUser(response.user); // setting the user on successful response
 
             const createdUser = await createUserDocumentFromAuth(response.user, {displayName});  // we are passing deisplayName in additional information of this fucntion as email password function did not retrun this and we are using the form's display name 
             

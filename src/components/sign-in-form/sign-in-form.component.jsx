@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 
-
+import {UserContext} from '../../contexts/user.context'
 
 import {
         signInWithGooglePopup,
@@ -31,6 +31,8 @@ const SignInForm = () =>{
 
     console.log('formFields = ', formFields );
 
+    const { setCurrentUser } = useContext(UserContext);
+
 
     const resetFormFields = ()=>{
         setFormFields(defaultFormFields);
@@ -40,12 +42,18 @@ const SignInForm = () =>{
 
 
         try{
-                const response = await signInWithGooglePopup();
+             await signInWithGooglePopup();
+
+                // aslo saying user when we get sign in using google 
+        // setCurrentUser(response.user); // storeing complete user received from response 
+
 
         // on successful signin we will store user in firestore
 
-        await createUserDocumentFromAuth(response.user);
-        // const userDocRef = await createUserDocumentFromAuth(response.user); 
+        // await createUserDocumentFromAuth(response.user);  // we have move it to user.context.jsx
+
+        // const userDocRef = await createUserDocumentFromAuth(response.user);
+        
 
         // console.log('response from google login ', response);
         }
@@ -70,7 +78,12 @@ const SignInForm = () =>{
         try {
 
             const response = await signInAuthUserWithEmailAndPassword(email, password);
-            console.log('respinse = ', response);
+            console.log('response = ', response);
+
+
+            // setting the context of app with just loged in user making it current user. (storing this user's info name token etc)
+
+            //setCurrentUser(response.user); // storeing complete user received from response 
 
         
             resetFormFields();
