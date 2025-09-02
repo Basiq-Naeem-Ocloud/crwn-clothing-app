@@ -8,6 +8,8 @@ import Authentication from './routes/authentication/authentication.component'
 
 import Shop from './routes/shop/shop.component'
 
+import Checkout from './routes/checkout/checkout.component'
+
 import { Routes, Route } from 'react-router-dom'
 
 // const Shop = ()=>{
@@ -24,6 +26,8 @@ const App = () => {
       <Route index element={<Home/>}/>  {/* index se hum ye kh rahe k jab b / per hit hogi to home component be render hoga nav k sath kioke home navigation Route k ander likha humne*/ }
       <Route path='shop' element={<Shop/>}/>
       <Route path='auth' element={<Authentication/>}/>
+      <Route path='checkout' element={<Checkout/>}/>
+
 
     </Route>
     </Routes>
