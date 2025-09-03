@@ -9,7 +9,7 @@ import {
      createUserWithEmailAndPassword,
      signInWithEmailAndPassword,
      signOut,
-     onAuthStateChanged
+     onAuthStateChanged,
      
     } from 'firebase/auth';
 
@@ -20,6 +20,10 @@ import {
     doc,  //to get instance of doc
     getDoc, //. to get "data" of a document
     setDoc,    // to set "data" of a document 
+    collection,
+    writeBatch,
+    query,
+    getDocs,
 
 } from 'firebase/firestore'
 
@@ -66,6 +70,53 @@ export const signInWithGoogleRedirect = () => signInWithRedirect( auth, googlePr
 export const db = getFirestore();
 
 
+
+
+export const  addCollectionAndDocument = async (collectionKey, objectsToAdd) => {
+
+    const collectionRef = collection(db, collectionKey);
+
+    const batch = writeBatch(db);
+
+    objectsToAdd.forEach((object) => {
+
+        const docRef = doc(collectionRef, object.title.toLowerCase());
+        batch.set(docRef, object); 
+
+    });
+
+    await batch.commit();
+
+    console.log('collection added to firestore');
+
+
+
+}
+
+// get products and categories from firestore
+
+export const getCategoriesAndDocuments = async () => {
+
+    const collectionRef = collection(db, 'categories'); 
+    const q = query(collectionRef);
+
+    const querySnapshot = await getDocs(q);
+ 
+    const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot)=>{ // acc = accumulator
+        const {title, items} = docSnapshot.data();  // destructuring data from each docSnapshot
+
+        acc[title.toLowerCase()] = items;
+
+        return acc;
+
+    }, {})
+
+    return categoryMap;
+
+};
+
+
+
 // making a function here to store the auth user into our firestore
 
 
@@ -83,13 +134,13 @@ export const createUserDocumentFromAuth = async (
 
     const userDocRef = doc(db, 'users', userAuth.uid);
 
-    console.log('user document =', userDocRef);
+    // console.log('user document =', userDocRef);
 
     const userSnapshot = await getDoc(userDocRef);  // we are using getDoc to get the document 
 
-    console.log('user snapshot = ', userSnapshot);
+    // console.log('user snapshot = ', userSnapshot);
 
-    console.log('user snapshot = ', userSnapshot.exists());
+    // console.log('user snapshot = ', userSnapshot.exists());
 
 
 

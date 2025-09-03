@@ -18,11 +18,11 @@ export const UserProvider = ({children}) => { // we will wrap our app component 
 
        const unsubscribe =  onAuthStateChangedListener((user)=>{
 
-        console.log('user inside onAuthStateChangedListener', user);
+        // console.log('user inside onAuthStateChangedListener', user);
 
         if(user){ // we we get user object not null then store it in db
 
-            console.log('storing user to db');
+            // console.log('storing user to db');
              createUserDocumentFromAuth(user);
         }
         setCurrentUser(user);  // if user signed in we store user object if user signed out we store the null

@@ -29,7 +29,7 @@ const SignUpForm = () =>{
 
     // const {setCurrentUser} = useContext(UserContext);  // very important we ahve initialize it inside the compoent 
 
-    console.log('formFields = ', formFields );
+    // console.log('formFields = ', formFields );
 
 
     const resetFormFields = ()=>{
@@ -40,7 +40,7 @@ const SignUpForm = () =>{
 
         event.preventDefault(); // we are saying we dont want any default behavior of form we are saying all of what gonna happen we will handle it by ourself; 
 
-        console.log('inisde handleSubmit')
+        // console.log('inisde handleSubmit')
 
         if(password !== confirmPassword)
         {

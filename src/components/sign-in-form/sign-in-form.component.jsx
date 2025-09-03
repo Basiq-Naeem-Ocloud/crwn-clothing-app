@@ -11,7 +11,7 @@ import {
 
 import FormInput from '../../components/form-input/form-input.component'
 
-import Button from "../button/button.component";
+import Button, {BUTTON_TYPE_CLASSES} from "../button/button.component";
 
 import './sign-in-form.styles.scss'
 
@@ -29,7 +29,7 @@ const SignInForm = () =>{
 
     const { email, password } = formFields;  // destructring the fields as initilaiiy the formFields is equal to defaulFormFields
 
-    console.log('formFields = ', formFields );
+    // console.log('formFields = ', formFields );
 
     const { setCurrentUser } = useContext(UserContext);
 
@@ -73,7 +73,7 @@ const SignInForm = () =>{
 
         event.preventDefault(); // we are saying we dont want any default behavior of form we are saying all of what gonna happen we will handle it by ourself; 
 
-        console.log('inisde handleSubmit')
+        // console.log('inisde handleSubmit')
 
         try {
 
@@ -143,7 +143,7 @@ const SignInForm = () =>{
                 <Button type="submit">Sign In</Button> { /* when this button gets clicked as its type is submit the above callback gets run veey important */ }
 
 
-                <Button type="button" buttonType="google" onClick={sinInWithGoole}>Google sign in</Button>
+                <Button type="button" buttonType={BUTTON_TYPE_CLASSES.google} onClick={sinInWithGoole}>Google sign in</Button>
                 </div>
 
             </form>

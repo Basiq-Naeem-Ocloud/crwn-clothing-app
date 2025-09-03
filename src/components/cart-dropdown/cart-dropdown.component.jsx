@@ -6,7 +6,7 @@ import { CartContext } from '../../contexts/cart.context'
 
 import { useNavigate } from 'react-router-dom';  // very important we are making the button go to cart to goto checkout page  
 
-import './cart-dropdown.styles.scss'
+import {CartDropdownContainer, EmptyMessage, CartItems} from './cart-dropdown.styles'
 
 
 import Button from '../button/button.component';
@@ -26,19 +26,25 @@ const CartDropdown = () =>{
 
     return (
 
-        <div className='cart-dropdown-container'>
+        <CartDropdownContainer>
 
-            <div className='cart-items'>
-                {cartItems.map((item) => (
+            <CartItems>
+
+                {
+                    cartItems.length ? (cartItems.map((item) => ( 
 
                     <CartItem key={item.id} cartItem={item} />
                         
-                    ))}
-            </div>
+                    ))) : (
+
+                        <EmptyMessage> Your cart is empty </EmptyMessage>
+                    )
+                }
+            </CartItems>
 
             <Button onClick={goToCheckoutHandler}> GO TO CHECKOUT</Button> {/*we wanted when this button gets clicked we wanted to goto checkout page to do that we are using useNAvigate*/}
 
-        </div>
+        </CartDropdownContainer>
 
     );
 };

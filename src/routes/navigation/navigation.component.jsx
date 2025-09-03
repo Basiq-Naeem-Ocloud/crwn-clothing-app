@@ -9,7 +9,7 @@ import { UserContext } from "../../contexts/user.context";  // but here we will 
 import { CartContext } from "../../contexts/cart.context";
 
 
-import "./navigation.styles.scss";
+import {NavigationContainer, LogoContainer, NavLinks, NavLink, } from "./navigation.styles";
 
 
 import { signOutUser } from "../../utils/firebase/firebase.utils";
@@ -22,8 +22,6 @@ import CartDropdown from '../../components/cart-dropdown/cart-dropdown.component
 const Navigation = () => {
 
   const {currentUser, setCurrentUser} = useContext(UserContext); // here we are getting value and setting in signin component component
-
-  console.log(' current user from navigation component =', currentUser);
 
 
   // const signOutHandler = async() =>{ // humne ye is liay bnaya firebasse se signout karne k bad humne apne userContext bhi clear karna ha 
@@ -47,43 +45,43 @@ const Navigation = () => {
 
     <Fragment>
 
-      <div className="navigation">
+      <NavigationContainer>
 
-        <Link className="logo-container" to="/">
+        <LogoContainer to="/">
 
           <CrwnLogo className="logo" />
 
-        </Link>
+        </LogoContainer>
 
-        <div className="nav-links-container">
+        <NavLinks>
 
-          <Link className="nav-link" to="/shop">
+          <NavLink to="/shop">
 
             SHOP
 
-          </Link>
+          </NavLink>
 
           {/*here we are going to implement the sign in and sign out functionality useing turnery operator*/}
           {
             currentUser ? 
             
-              (<span className="nav-link" onClick={signOutUser}> SIGN OUT</span>)
+              (<NavLink as='span' onClick={signOutUser}> SIGN OUT</NavLink>) // hum kh rahe is navLink ko humne as a span tag render karwana ha 
               : 
               
-              (<Link className="nav-link" to="/auth">
+              (<NavLink to="/auth">
 
             SIGN IN
 
-          </Link>
+          </NavLink>
           )}
 
           <CartIcon/>
 
-        </div>
+        </NavLinks>
 
         {isCartOpen && <CartDropdown/>} {/* if is cart open is true then we will show it */}
 
-      </div>
+      </NavigationContainer>
 
       {/* we have used it to render nav bar for every page */}
       <Outlet />
